@@ -29,35 +29,33 @@
 
         <div class="form-card">
             <h3>Sign into Bubbble</h3>
-            <form action="/" method="post">
+            <form action="/signIn" method="post">
                 <label>Username</label><br>
                 <input required type="text" name="username"><br>
                 <label>Password</label><br>
                 <input required type="password" name="password"><br>
-                <button type="submit">Sign In</button>
-                <input type="hidden" name="action" value="Login">
+                <input type="submit" value="Sign In">
+                <p class="message"></p>
             </form>
 
 
             <h3>Or sign up!</h3>
-            <form action="/accounts/" method="post">
+            <form action="/register" method="post">
                 <label>First Name*</label><br>
-                <input required type="text" name="fname"><br>
-                <label>Middle Name</label><br>
-                <input type="text" name="mname"><br>
+                <input required type="text" name="user[fname]"><br>
                 <label>Last Name*</label><br>
-                <input required type="text" name="lname"><br>
+                <input required type="text" name="user[lname]"><br>
 
                 <label>Username*</label><br>
-                <input required type="text" name="username"><br>
+                <input required type="text" name="user[username]"><br>
                 <label>Password*</label><br>
-                <input required type="password" name="password"><br>
+                <input required type="password" name="user[password]"><br>
                 
                 <label>Reenter Password*</label><br>
-                <input required type="password" name="password2"><br>    
+                <input required type="password" name="user[password2]"><br>    
                 
-                <button type="submit">Register</button>
-                <input type="hidden" name="action" value="register">
+                <input type="submit" value="Register">
+
             </form>
             
         </div> <!--form card-->
