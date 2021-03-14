@@ -10,7 +10,7 @@ const pool = new Pool({
     rejectUnauthorized: false
   }
 });
-
+var allUsers = [];
 //start server
 express()
   .use(express.static(path.join(__dirname, 'public')))
