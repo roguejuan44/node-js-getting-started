@@ -41,5 +41,16 @@ function signIn(req, res) {
   const password = req.body.password;
   console.log("UN: " + username);
   console.log("PW: " + password);
+  pool.connect((err, client, done) => {
+    if (err) throw err
+    client.query('SELECT * FROM users WHERE user_username = $1 AND user_password = $2', [username, password], (err, res) => {
+      done()
+      if (err) {
+        console.log(err.stack)
+      } else {
+        console.log(res.rows[0])
+      }
+    })
+  })
   res.render('pages/newsfeed')
 }
