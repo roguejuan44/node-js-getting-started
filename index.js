@@ -27,7 +27,7 @@ express()
       const results = { 'results': (result) ? result.rows : null};
 
       userList = results;
-      res.render('pages/index', message);
+      res.render('pages/index');
       client.release();
     } catch (err) {
       console.error(err);
@@ -48,7 +48,7 @@ function signIn(req, res) {
     }
     else {
       message = "Incorrect username or password";
-      res.render('pages/index', message);
+      res.render('pages/index');
     } 
   });
 }
