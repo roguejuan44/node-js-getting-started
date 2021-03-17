@@ -18,17 +18,21 @@
     </header>
     <main>
         <div class="left-column">
-            <h2>How does Bubbble work?</h2>
+            <h2>Welcome <%= user.user_username %></h2>
+            <h5>How does Bubbble work?</h5>
             <p>You can create posts that anyone on the site can see! Bubbble
                  takes your set location and themes your post according to the weather at the time of posting.
                 Go ahead, make a post and get started!</p>
-
+                <form method="post" action="/changeLocation">
+                    <input required type="text" value="<%= user.user_location%>" placeholder="Your Location" name="location"><br>
+                    <button type="submit">Update Location</button>
+                </form>
                 <ul>
                     <li><a href="#">See my posts</a></li>
                     <li><a href="#">Search all posts</a></li>
                     <li><a href="#">Set my theme</a></li>
                     <li><a href="#">Change password</a></li>
-                    <li><a href="#">Sign Out</a></li>
+                    <li><a href="/">Sign Out</a></li>
                 </ul>
 
 
@@ -36,12 +40,16 @@
     
         <div class="right-column">    
             <div class="newsfeed">
-
+                <ul>
+                    <% posts.forEach(function(r) { %>
+                        <li><%= r.post_content %><br><hr> <%= r.post_creator %></li>
+                    <% }); %>
+                </ul>
+                
             </div> <!--newsfeed-->
             <div class="post-form">
                 <form action="/" method="post">
                     <textarea required name="post-content" placeholder="What's on your mind?"></textarea><br>
-                    <input required type="text" placeholder="Your Location" name="location"><br>
                     <button type="submit">Send</button>
                     <input type="hidden" name="action" value="Send">
                 </form>

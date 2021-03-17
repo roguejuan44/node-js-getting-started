@@ -1,11 +1,10 @@
 const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
-
 //database connection
 const { Pool } = require('pg');
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL || 'postgres://ajqbnlopportmc:2d1426edcff6f185c3b502e66c034892eb1ab5cd0aa8bdebf7226ee1b806f038@ec2-54-164-22-242.compute-1.amazonaws.com:5432/d9nb3kbis4vrdu',
   ssl: {
     rejectUnauthorized: false
   }
@@ -18,7 +17,7 @@ express()
   .use(express.json())
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
+  .get('/', (req, res) => res.render('pages/index', {message :""}))
   .get('/db', async (req, res) => {
     try {
       const client = await pool.connect();
@@ -33,6 +32,9 @@ express()
   })
   .post('/signIn', signIn)
 
+
+
+  
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 
@@ -52,13 +54,19 @@ function signIn(req, resp) {
       console.log(res.rows[0])
       // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
       if (!res.rows[0]) {
-        console.log("empty");
-        resp.render('pages/index');
+        resp.render('pages/index', {message :"Incorrect username or password"});
       }
       else {
         console.log("found")
         let r = res.rows[0]
-        resp.render('pages/newsfeed');
+        resp.render('pages/newsfeed', {user: res.rows[0],
+                                      posts: [
+                                        {post_creator: 1,
+                                        post_content: "This is a test post"},
+                                        {post_creator: 1,
+                                          post_content: "This is also a test post"}
+                                      ]
+                                    });
 
       }
     }
