@@ -50,5 +50,5 @@ function signIn(req, res) {
       message = "Incorrect username or password";
       res.render('pages/index');
     } 
-  });
+  }
 }
