@@ -19,6 +19,18 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
+  /*.get('/db', async (req, res) => {
+    try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM users');
+      const results = { 'results': (result) ? result.rows : null};
+      res.render('pages/db', results );
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })*/
   .get('/db', async (req, res) => {
     try {
       const client = await pool.connect();
@@ -49,7 +61,7 @@ function signIn(req, res) {
         console.log(err.stack)
       } else {
         console.log(res.rows[0])
-        res.render('pages/newsfeed', res.rows[0])
+        res.render('pages/newsfeed', res.rows)
 
       }
     })
