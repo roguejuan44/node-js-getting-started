@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
-let userList = [];
+let userList = {};
 //database connection
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -18,15 +18,15 @@ express()
   .use(express.json())
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .get('/db', async (req, res) => {
+  //.get('/', (req, res) => res.render('pages/index'))
+  .get('/', async (req, res) => {
     try {
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM users');
       const results = { 'results': (result) ? result.rows : null};
 
       userList = results;
-      res.render('pages/db', userList );
+      res.render('pages/index');
       client.release();
     } catch (err) {
       console.error(err);
