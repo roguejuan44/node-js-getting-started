@@ -19,10 +19,12 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-  .post('/db', async (req, res) => {
+  .get('/db', async (req, res) => {
     try {
+      const username = req.query.username;
+      const password = req.query.password;
       const client = await pool.connect();
-      const result = await client.query('SELECT * FROM users');
+      const result = await client.query('SELECT * FROM users WHERE user_username = ' + username);
       const results = { 'results': (result) ? result.rows : null};
       res.render('pages/db', results );
       client.release();
