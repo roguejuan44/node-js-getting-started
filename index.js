@@ -19,7 +19,7 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-  .post('/signIn', async (req, res) => {
+  .get('/signIn', async (req, res) => {
     try {
       const username = req.query.username;
       const password = req.query.password;
