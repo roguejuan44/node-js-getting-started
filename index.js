@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 5000
 //database connection
 const { Pool } = require('pg');
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgres://ajqbnlopportmc:2d1426edcff6f185c3b502e66c034892eb1ab5cd0aa8bdebf7226ee1b806f038@ec2-54-164-22-242.compute-1.amazonaws.com:5432/d9nb3kbis4vrdu',
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
@@ -32,7 +32,7 @@ express()
     }
   })
   .post('/signIn', signIn)
-  
+
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 

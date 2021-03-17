@@ -3,8 +3,8 @@ $background-sunny: #eff1c5;
 $shadow-sunny: #a2a77f;
 
 /*Rainy*/
-$background-rainy: #035e7b;
-$shadow-rainy: #062935;
+$background-rainy: #0095c4;
+$shadow-rainy: #035e7b;
 
 /*Snowy*/
 $background-snowy: #F7EDE2;
@@ -20,3 +20,12 @@ h1 {
     font-size: 3rem;
 }
 
+.sunny {
+    background-color: $background-sunny;
+}
+.rainy {
+    background-color: $background-rainy;
+}
+.snowy {
+    background-color: $background-snowy;
+}

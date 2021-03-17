@@ -12,4 +12,16 @@ body {
 h1 {
   font-size: 3rem;
 }
+
+.sunny {
+  background-color: #eff1c5;
+}
+
+.rainy {
+  background-color: #0095c4;
+}
+
+.snowy {
+  background-color: #F7EDE2;
+}
 /*# sourceMappingURL=styles.css.map */
