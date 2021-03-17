@@ -31,7 +31,7 @@ express()
       res.send("Error " + err);
     }
   })*/
-  .get('/db', async (req, res) => {
+    .post('/db', async (req, res) => {
     try {
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM users');
