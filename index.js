@@ -28,7 +28,7 @@ express()
       for (let i = 0; i < result.length(); i++) {
         userList.push(result[i]);
       }
-      res.render('pages/db', results );
+      res.render('pages/db', userList );
       client.release();
     } catch (err) {
       console.error(err);
