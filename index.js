@@ -1,8 +1,7 @@
 const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
-let userList = {};
-let message = "";
+
 //database connection
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -19,15 +18,13 @@ express()
   .use(express.json())
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  //.get('/', (req, res) => res.render('pages/index'))
-  .get('/', async (req, res) => {
+  .get('/', (req, res) => res.render('pages/index'))
+  .get('/db', async (req, res) => {
     try {
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM users');
       const results = { 'results': (result) ? result.rows : null};
-
-      userList = result.rows;
-      res.render('pages/index');
+      res.render('pages/db', results );
       client.release();
     } catch (err) {
       console.error(err);
@@ -42,13 +39,7 @@ express()
 function signIn(req, res) {
   const username = req.body.username;
   const password = req.body.password;
-  for(let i=0; i < userList.length; i++) {
-    if (userList[i]['user_username'] == username && userList[i]['user_password'] == password ) {
-      res.render('pages/newsfeed');
-    }
-    else {
-      message = "Incorrect username or password";
-      res.render('pages/index');
-    } 
-  }
+  console.log("UN: " + username);
+  console.log("PW: " + password);
+  res.render('pages/newsfeed')
 }
