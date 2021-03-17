@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
-
+let userList = [];
 //database connection
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -19,23 +19,15 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-  /*.get('/db', async (req, res) => {
+  .get('/db', async (req, res) => {
     try {
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM users');
       const results = { 'results': (result) ? result.rows : null};
-      res.render('pages/db', results );
-      client.release();
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
-    }
-  })*/
-    .post('/db', async (req, res) => {
-    try {
-      const client = await pool.connect();
-      const result = await client.query('SELECT * FROM users');
-      const results = { 'results': (result) ? result.rows : null};
+
+      for (let i = 0; i < result.length(); i++) {
+        userList.push(result[i]);
+      }
       res.render('pages/db', results );
       client.release();
     } catch (err) {
@@ -53,17 +45,8 @@ function signIn(req, res) {
   const password = req.body.password;
   console.log("UN: " + username);
   console.log("PW: " + password);
-  pool.connect((err, client, done) => {
-    if (err) throw err
-    client.query('SELECT * FROM users WHERE user_username = $1 AND user_password = $2', [username, password], (err, res) => {
-      done()
-      if (err) {
-        console.log(err.stack)
-      } else {
-        console.log(res.rows[0])
-        res.render('pages/newsfeed', res.rows)
+  console.log(userList);
+  var query = 'SELECT * FROM users WHERE user_username = ' + username + ' AND user_password = ' + password; 
+  res.render('pages/newsfeed');
 
-      }
-    })
-  })
 }
