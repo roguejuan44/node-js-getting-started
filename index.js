@@ -25,9 +25,7 @@ express()
       const result = await client.query('SELECT * FROM users');
       const results = { 'results': (result) ? result.rows : null};
 
-      for (let i = 0; i < result.length(); i++) {
-        userList.push(result[i]);
-      }
+      userList = results;
       res.render('pages/db', userList );
       client.release();
     } catch (err) {
