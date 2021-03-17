@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 let userList = {};
+let message = "";
 //database connection
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -26,7 +27,7 @@ express()
       const results = { 'results': (result) ? result.rows : null};
 
       userList = results;
-      res.render('pages/index');
+      res.render('pages/index', message);
       client.release();
     } catch (err) {
       console.error(err);
@@ -41,10 +42,13 @@ express()
 function signIn(req, res) {
   const username = req.body.username;
   const password = req.body.password;
-  console.log("UN: " + username);
-  console.log("PW: " + password);
-  console.log(userList);
-  var query = 'SELECT * FROM users WHERE user_username = ' + username + ' AND user_password = ' + password; 
-  res.render('pages/newsfeed');
-
+  userList.forEach(function(r) {
+    if (r.user_username == username && r.user_password == password ) {
+      res.render('pages/newsfeed');
+    }
+    else {
+      message = "Incorrect username or password";
+      res.render('pages/index', message);
+    } 
+  });
 }
