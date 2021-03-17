@@ -42,8 +42,8 @@ express()
 function signIn(req, res) {
   const username = req.body.username;
   const password = req.body.password;
-  userList.forEach(function(r) {
-    if (r.user_username == username && r.user_password == password ) {
+  for(let i=0; i < userList.length; i++) {
+    if (userlist[i][user_username] == username && userList[i][user_password] == password ) {
       res.render('pages/newsfeed');
     }
     else {
