@@ -19,7 +19,7 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-  .get('/db', async (req, res) => {
+  .get('/signIn', async (req, res) => {
     try {
       const username = req.query.username;
       const password = req.query.password;
@@ -33,7 +33,7 @@ express()
       res.send("Error " + err);
     }
   })
-  .post('/signIn', signIn)
+  //.post('/signIn', signIn)
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 
