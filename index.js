@@ -26,7 +26,7 @@ express()
       const result = await client.query('SELECT * FROM users');
       const results = { 'results': (result) ? result.rows : null};
 
-      userList = results;
+      userList = result.rows;
       res.render('pages/index');
       client.release();
     } catch (err) {
@@ -43,7 +43,7 @@ function signIn(req, res) {
   const username = req.body.username;
   const password = req.body.password;
   for(let i=0; i < userList.length; i++) {
-    if (userList[i][user_username] == username && userList[i][user_password] == password ) {
+    if (userList[i]['user_username'] == username && userList[i]['user_password'] == password ) {
       res.render('pages/newsfeed');
     }
     else {
