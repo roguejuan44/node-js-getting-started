@@ -24,4 +24,12 @@ h1 {
 .snowy {
   background-color: #F7EDE2;
 }
+
+.bubbble-post {
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  list-style-type: none;
+}
 /*# sourceMappingURL=styles.css.map */

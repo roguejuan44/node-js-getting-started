@@ -17,6 +17,7 @@
         <h1>Bubbble</h1>
     </header>
     <main>
+        <h3>Your New Post:</h3>
             <div class="newsfeed">
                 <ul>
                     <% posts.forEach(function(r) { %>
@@ -26,10 +27,10 @@
                 
             </div> <!--newsfeed-->
             <div class="post-form">
-                <form action="/newPost" method="post">
-                    <textarea required name="postcontent" placeholder="What's on your mind?"></textarea><br>
-                    <button type="submit">Send</button>
+                <form action="/newsfeed" method="post">
+                    <button type="submit">Return to Newsfeed</button>
                     <input type="hidden" name="id" value="<%= currentUser %>">
+                    <input type="hidden" name="username" value="<%= currentUser %>">
                     
                 </form>
     

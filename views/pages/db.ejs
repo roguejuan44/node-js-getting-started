@@ -1,23 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
 <head>
-  <%- include ("../partials/header.ejs") %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/newsfeed.css">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <title>Bubbble Home Page</title>
+
+
 </head>
-
 <body>
-
-<%- include ("../partials/nav.ejs") %>
-
+    <header>
+        <h1>Bubbble</h1>
+    </header>
+<body>
 <div class="container">
 <h2>Database Results</h2>
 
 <ul>
     <% results.forEach(function(r) { %>
-        <li><%= r.user_id %> - <%= r.user_username %></li>
+        <li class="bubbble-post"><%= r.post_content %> - <%= r.post_creator %></li>
     <% }); %>
 </ul>
 
 </div>
 
 </body>
+<footer>
+  <p>&copy; Ethan Tindall 2021 - CSE341: Backend 2 - Project 2</p>
+</footer>
 </html>

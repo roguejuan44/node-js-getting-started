@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/newsfeed.css">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <title>Bubbble Home Page</title>
+
+
+</head>
+<body>
+    <header>
+        <h1>Bubbble</h1>
+    </header>
+    <main>
+        <div>
+            <h2>Welcome <%= user.user_username %></h2>
+            <h5>How does Bubbble work?</h5>
+            <p>You can create posts that anyone on the site can see! Bubbble
+                 takes your set location and themes your post according to the weather at the time of posting.
+                Go ahead, make a post and get started!</p>
+                <form method="post" action="/changeLocation">
+                    <input required type="text" value="<%= user.user_location%>" placeholder="Your Location" name="location"><br>
+                    <button type="submit">Update Location</button>
+                </form>
+                <ul>
+                    <li><a href="/postsBy?creator=<%= user.user_id %>">See my posts</a></li>
+                    <li><form action="/newsfeed" method="post">
+                            <button type="submit">View Newsfeed</button>
+                            <input type="hidden" name="username" value="<%= user.user_username %>">
+                            <input type="hidden" name="id" value="<%= user.user_id %>">
+
+                        </form>
+
+                    </li>
+                    <li><a href="#">Set my theme</a></li>
+                    <li><a href="#">Change password</a></li>
+                    <li><a href="/">Sign Out</a></li>
+                </ul>
+
+
+        </div>
+    
+
+
+    </main>
+    <footer>
+        <p>&copy; Ethan Tindall 2021 - CSE341: Backend 2 - Project 2</p>
+    </footer>
+</body>
+</html>
+    

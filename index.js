@@ -17,11 +17,14 @@ express()
   .use(express.json())
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
+  //homepage
   .get('/', (req, res) => res.render('pages/index', {message :""}))
-  .get('/db', async (req, res) => {
+  //search my posts
+  .get('/postsBy', async (req, res) => {
+    let creator = req.query.creator;
     try {
       const client = await pool.connect();
-      const result = await client.query('SELECT * FROM users');
+      const result = await client.query('SELECT * FROM posts WHERE post_creator = ' + creator);
       const results = { 'results': (result) ? result.rows : null};
       res.render('pages/db', results );
       client.release();
@@ -30,15 +33,19 @@ express()
       res.send("Error " + err);
     }
   })
+  //sign in
   .post('/signIn', signIn)
+  //view newsfeed
+  .post('/newsfeed', getNewsfeed)
+  .post('/newPost', createPost)
 
-
-
-  
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 
 /*-----------Functions-----------*/
+
+
+
 function signIn(req, resp) {
   const username = req.body.username;
   const password = req.body.password;
@@ -59,14 +66,59 @@ function signIn(req, resp) {
       else {
         console.log("found")
         let r = res.rows[0]
-        resp.render('pages/newsfeed', {user: res.rows[0],
-                                      posts: [
-                                        {post_creator: 1,
-                                        post_content: "This is a test post"},
-                                        {post_creator: 1,
-                                          post_content: "This is also a test post"}
-                                      ]
-                                    });
+        resp.render('pages/control', {user: res.rows[0]});
+
+      }
+    }
+  })
+}
+
+function getNewsfeed(req, resp) {
+  const username = req.body.username;
+  const id = req.body.id;
+  let sql = 'SELECT * FROM posts LEFT JOIN users ON posts.post_creator = users.user_id ORDER BY posts.post_date DESC'
+
+  pool.query(sql, (err, res) => {
+    if (err) {
+      console.log(err.stack)
+    } else {
+      console.log(res.rows[0])
+      // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
+      if (!res.rows) {
+        resp.render('pages/index', {message :"No posts found"});
+      }
+      else {
+        console.log("found")
+        resp.render('pages/newsfeed', {posts: res.rows, currentUser: id});
+
+      }
+    }
+  })
+}
+
+function createPost(req, resp) {
+  const content = req.body.postcontent;
+  const id = req.body.id;
+
+    //insert into posts 
+    //get new posts
+  console.log(id + " hello: " + content);
+
+  const text = "INSERT INTO posts(post_creator, post_weather, post_location, post_content, post_date) VALUES($1, 'sunny', 'Denver', $2, '2021-03-19') RETURNING * "
+  const values = [id, content]
+
+  pool.query(text, values, (err, res) => {
+    if (err) {
+      console.log(err.stack)
+    } else {
+      console.log(res.rows[0])
+      // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
+      if (!res.rows) {
+        resp.render('pages/index', {message :"No posts found"});
+      }
+      else {
+        console.log("found")
+        resp.render('pages/preview', {posts: res.rows, currentUser: id});
 
       }
     }
