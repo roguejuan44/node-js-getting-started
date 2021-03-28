@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
+let currentWeather = "sun"
 //database connection
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -18,7 +19,7 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   //homepage
-  .get('/', (req, res) => res.render('pages/index', {message :""}))
+  .get('/', (req, res) => res.render('pages/index', {message :"", weather: currentWeather}))
   //search my posts
   .get('/postsBy', async (req, res) => {
     let creator = req.query.creator;
@@ -35,8 +36,13 @@ express()
   })
   //sign in
   .post('/signIn', signIn)
+  //register new user
+  .post('/register', register)
+  //set user location
+  .post('/changeLocation', changeLocation)
   //view newsfeed
   .post('/newsfeed', getNewsfeed)
+  //create new post
   .post('/newPost', createPost)
 
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
@@ -44,7 +50,90 @@ express()
 
 /*-----------Functions-----------*/
 
+function changeLocation(req, resp) {
+  const id = req.body.id;
+  const location = req.body.location;
+  let sql = "UPDATE users SET user_location = $1 WHERE user_id = $2";
+  let values = [location, id];
 
+  console.log(location);
+  pool.query(sql, values, (err, res) => {
+    if (err) {
+      console.log(err.stack)
+    } else { console.log("success");
+    res.redirect('back');
+  } 
+  })
+}
+
+function register(req, resp) {
+  const fName = req.body.fname;
+  const lName = req.body.lname;
+  const username = req.body.username;
+  const password = req.body.password;
+  const password2 = req.body.password2;
+
+
+  console.log("FN: " + fName);
+  console.log("LN: " + lName);
+  console.log("UN: " + username);
+  console.log("PW: " + password);
+  console.log("PW2: " + password2);
+
+  let sql = 'SELECT * FROM users WHERE user_username = $1';
+  let values = [username, fName, lName, password];
+  let oneValue = [username];
+
+  pool.query(sql, oneValue, (err, res) => {
+    if (err) {
+      console.log(err.stack)
+    } else {
+      if (res.rows[0]) {
+        resp.render('pages/index', {message :"A user with this username already exists", weather: currentWeather});
+      }
+      else {
+        if (password == password2) {
+          addNewUser(values)
+          resp.render('pages/index', {message : "User registered successfully. Please sign in.", weather: currentWeather})
+        }
+        else {
+          resp.render('pages/index', {message : "The passwords do not match. Try again.", weather: currentWeather})
+        }
+      }
+    }
+  })
+}
+
+function addNewUser(valuesU) {
+  pool.connect((err, client, done) => {
+    const shouldAbort = err => {
+      if (err) {
+        console.error('Error in transaction', err.stack)
+        client.query('ROLLBACK', err => {
+          if (err) {
+            console.error('Error rolling back client', err.stack)
+          }
+          // release the client back to the pool
+          done()
+        })
+      }
+      return !!err
+    }
+    client.query('BEGIN', err => {
+      if (shouldAbort(err)) return
+      const queryText = 'INSERT INTO users (user_username, user_firstname, user_lastname, user_password) VALUES ($1, $2, $3, $4) RETURNING user_id'
+      client.query(queryText, valuesU, (err, res) => {
+        if (shouldAbort(err)) return
+        client.query('COMMIT', err => {
+          if (err) {
+            console.error('Error committing transaction', err.stack)
+          }
+          done()
+        })
+      })
+    })
+  })
+}
 
 function signIn(req, resp) {
   const username = req.body.username;
@@ -58,16 +147,12 @@ function signIn(req, resp) {
     if (err) {
       console.log(err.stack)
     } else {
-      console.log(res.rows[0])
-      // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
       if (!res.rows[0]) {
-        resp.render('pages/index', {message :"Incorrect username or password"});
+        resp.render('pages/index', {message :"Incorrect username or password", weather: currentWeather});
       }
       else {
         console.log("found")
-        let r = res.rows[0]
         resp.render('pages/control', {user: res.rows[0]});
-
       }
     }
   })

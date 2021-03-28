@@ -2,13 +2,24 @@
 $background-sunny: #eff1c5;
 $shadow-sunny: #a2a77f;
 
+.sun {
+    background-color: $background-sunny;
+}
 /*Rainy*/
 $background-rainy: #0095c4;
 $shadow-rainy: #035e7b;
 
+.rain {
+    background-color: $background-rainy;
+}
+
 /*Snowy*/
 $background-snowy: #F7EDE2;
 $shadow-snowy: gray;
+
+.snow {
+    background-color: $background-snowy;
+} 
 
 h1, h2, h3, h4 {
     font-family: 'Righteous', cursive;
@@ -20,15 +31,38 @@ h1 {
     font-size: 3rem;
 }
 
-.sunny {
-    background-color: $background-sunny;
+#lock {
+    width: 50%;
 }
-.rainy {
-    background-color: $background-rainy;
+.control img {
+    width: 70%;
+    margin-top: 15px;
 }
-.snowy {
-    background-color: $background-snowy;
+.control ul li {
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 10rem;
+    height: 10rem;
+    padding-top: 10px;
+    text-align: center;
+    list-style-type: none;
+    font-family: 'Righteous', cursive;
+    margin: 10px;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-content: flex-end;
+     input {
+        margin: 30px 0;
+        width: 95%;
+    }
+    }   
+
 }
+
+
+
 
 .bubbble-post {
     border: 1px solid black;
@@ -37,3 +71,54 @@ h1 {
     margin-bottom: 5px;
     list-style-type: none;
 }
+header img {
+    width: 150px;
+}
+header h1 {
+    padding-top: 10px;
+}
+
+header, footer {
+    text-align: center;
+}
+main {
+    display: flex;
+    flex-direction: column-reverse;
+}
+.right-column {
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    padding: 10px;
+    width: 80%;
+    align-self: center;
+}
+.change-location {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
+
+
+@media screen and (min-width: 800px) {
+    main {
+        flex-direction: row;
+        height: 700px;
+    }
+    header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .left-column {
+        width: 60%;
+        margin: 20px;
+    }
+    .right-column {
+        width: 40%;
+        margin: 20px;
+        align-self: center;
+    
+    }
+    
+    }

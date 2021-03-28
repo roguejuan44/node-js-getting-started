@@ -10,13 +10,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <title>Bubbble Home Page</title>
 
-
 </head>
 <body>
     <header>
         <h1>Bubbble</h1>
     </header>
     <main>
+
+
+        <div class="post-stuff">
+            <button onclick="window.history.back()">Go Back</button>
+
             <div class="newsfeed">
                 <ul>
                     <% posts.forEach(function(r) { %>
@@ -35,7 +39,7 @@
     
 
             </div> <!--post form-->
-
+        </div>
     </main>
     <footer>
         <p>&copy; Ethan Tindall 2021 - CSE341: Backend 2 - Project 2</p>

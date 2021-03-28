@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/newsfeed.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/control.css">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
@@ -14,39 +15,129 @@
 </head>
 <body>
     <header>
+
+        <img src="/images/sun.png" alt="Sun Icon">
+
         <h1>Bubbble</h1>
     </header>
     <main>
-        <div>
+        <div class="control">
+            <div class="row1">
             <h2>Welcome <%= user.user_username %></h2>
             <h5>How does Bubbble work?</h5>
             <p>You can create posts that anyone on the site can see! Bubbble
                  takes your set location and themes your post according to the weather at the time of posting.
                 Go ahead, make a post and get started!</p>
-                <form method="post" action="/changeLocation">
-                    <input required type="text" value="<%= user.user_location%>" placeholder="Your Location" name="location"><br>
-                    <button type="submit">Update Location</button>
-                </form>
+
+                </div>
+                <div class="row2">
                 <ul>
-                    <li><a href="/postsBy?creator=<%= user.user_id %>">See my posts</a></li>
-                    <li><form action="/newsfeed" method="post">
+                    <li class="panels location" onclick="revealPanel('location')">
+                        <p>Update Location</p>
+                        <img src="/images/location.png" alt="Select Location">
+
+                    </li>
+
+                    <li class="panels posts" onclick="revealPanel('posts')">
+                        <a href="/postsBy?creator=<%= user.user_id %>">See my posts
+                        <img src="/images/book.png" alt="Select Your Posts">
+                    </a>
+                    </li>
+                    <li class="panels newsfeed" onclick="revealPanel('newsfeed')">
+                        <form action="/newsfeed" method="post">
                             <button type="submit">View Newsfeed</button>
                             <input type="hidden" name="username" value="<%= user.user_username %>">
                             <input type="hidden" name="id" value="<%= user.user_id %>">
+                            <button type="submit"><img src="/images/newspaper.png" alt="Select Newsfeed"></button>
 
                         </form>
-
                     </li>
-                    <li><a href="#">Set my theme</a></li>
-                    <li><a href="#">Change password</a></li>
-                    <li><a href="/">Sign Out</a></li>
+                    <li class="panels theme" onclick="revealPanel('theme')">
+                        <a href="#">Set my theme
+                        <img src="/images/sun.png" alt="Select Theme">
+                    </a>
+                    </li>
+                    <li class="panels password" onclick="revealPanel('password')">
+                        <a href="#">Change password
+                        <img id="lock" src="/images/lock.png" alt="Change Your Password">
+                    </a>
+                    </li>
+                    <li><a href="/">Sign Out
+                        <img src="/images/door.png" alt="Sign Out">
+                    </a>
+                    </li>
                 </ul>
 
+                <!-- hidden panels -->
+                <!-- location-->
+                <!-- modals -->
+                <div class="modal">
+                <div class="modal-content location-hidden">
+                    <form class="change-location" method="post" action="/changeLocation">
+                        <p>Update Location</p>
+                        <button type="button" onclick="closeModals()">Close</button>
+                        <input required type="text" value="<%= user.user_location%>" placeholder="Your Location" name="location"><br>
+                        <input type="hidden" value="<%= user.user_id%>" name="id">
+                        <button type="submit">Update</button>
+                    </form>
+                </div>
+                
+                <!-- location-->
+                <div class="modal-content theme-hidden">
+                    <form class="change-location" method="post" action="/changeLocation">
+                        <label>Manually Set Theme</label>
+                        <button type="button" onclick="closeModals()">Close</button>
 
+                            <select>
+                                <option disabled selected>Select an option</option>
+                                <option name="sun" value="sun">Sunny</option>
+                                <option name="rain" value="rain">Rain</option>
+                                <option name="snow" value="snow">Snow</option>
+
+                            </select>
+
+                        <button type="submit">Update</button>
+                    </form>
+                </div>
+
+                <!-- password-->
+                <div class="modal-content password-hidden">
+                    <form class="change-location" method="post" action="/changeLocation">
+                        <label>Update Password</label>
+                        <button type="button" onclick="closeModals()">Close</button>
+
+                        <input required type="password" placeholder="Password" name="password"><br>
+                        <input required type="password" placeholder="Reenter Password" name="password2"><br>
+                        <button type="submit">Update Password</button>
+                    </form>
+                </div>
+            </div>
         </div>
     
 
+        <script>
+            function revealPanel(panelName) {
+                var classname = panelName + "-hidden";
+                var selectedPanel = document.getElementsByClassName(classname)[0];
+                selectedPanel.style.display = "block";
 
+                //modal background add 
+                var modal = document.getElementsByClassName("modal")[0];
+                modal.style.display= "block";
+
+               }   
+
+            function closeModals(){
+                var elems = document.querySelectorAll(".modal-content");
+                [].forEach.call(elems, function(el) {
+                    el.style.display ="none"
+                });
+                var modal = document.getElementsByClassName("modal")[0];
+                modal.style.display ="none";
+            }
+
+
+               </script>
     </main>
     <footer>
         <p>&copy; Ethan Tindall 2021 - CSE341: Backend 2 - Project 2</p>

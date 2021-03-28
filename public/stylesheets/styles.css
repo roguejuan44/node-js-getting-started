@@ -1,6 +1,18 @@
 /*Sunny colors*/
+.sun {
+  background-color: #eff1c5;
+}
+
 /*Rainy*/
+.rain {
+  background-color: #0095c4;
+}
+
 /*Snowy*/
+.snow {
+  background-color: #F7EDE2;
+}
+
 h1, h2, h3, h4 {
   font-family: 'Righteous', cursive;
 }
@@ -13,16 +25,42 @@ h1 {
   font-size: 3rem;
 }
 
-.sunny {
-  background-color: #eff1c5;
+#lock {
+  width: 50%;
 }
 
-.rainy {
-  background-color: #0095c4;
+.control img {
+  width: 70%;
+  margin-top: 15px;
 }
 
-.snowy {
-  background-color: #F7EDE2;
+.control ul li {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 10rem;
+  height: 10rem;
+  padding-top: 10px;
+  text-align: center;
+  list-style-type: none;
+  font-family: 'Righteous', cursive;
+  margin: 10px;
+}
+
+.control ul li form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-line-pack: end;
+      align-content: flex-end;
+}
+
+.control ul li form input {
+  margin: 30px 0;
+  width: 95%;
 }
 
 .bubbble-post {
@@ -31,5 +69,77 @@ h1 {
   border-radius: 4px;
   margin-bottom: 5px;
   list-style-type: none;
+}
+
+header img {
+  width: 150px;
+}
+
+header h1 {
+  padding-top: 10px;
+}
+
+header, footer {
+  text-align: center;
+}
+
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+}
+
+.right-column {
+  border: 2px solid black;
+  border-radius: 20px;
+  text-align: center;
+  padding: 10px;
+  width: 80%;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.change-location {
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 800px) {
+  main {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    height: 700px;
+  }
+  header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .left-column {
+    width: 60%;
+    margin: 20px;
+  }
+  .right-column {
+    width: 40%;
+    margin: 20px;
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+  }
 }
 /*# sourceMappingURL=styles.css.map */

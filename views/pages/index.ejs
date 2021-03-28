@@ -11,18 +11,26 @@
 
 
 </head>
-<body class="snowy">
+<body class="<%= weather %>">
     <header>
-        <img src="Untitled.png" alt="Sun Icon">
+        <img src="/images/<%= weather %>.png" alt="<%= weather %> Icon">
         <h1>Welcome to Bubbble</h1>
     </header>
     <main>
     <div class="left-column">
         <h2>What is Bubbble?</h2>
-        <p>Well we are a Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-            At eaque voluptate optio tempora explicabo saepe accusamus repellendus impedit, aperiam, neque, 
-            doloremque consequatur quasi iste ratione veniam quaerat eos laborum consequuntur.
+        <p>Well we are a social media site where everything is weather themed. When you create a post, it is themed
+            according to the weather at your location. There are some neat color schemes and CSS that go into the designs! 
+            There are a number of different weather designs you will see:
         </p>
+            <ul>
+                <li>Clear Sky</li>
+                <li>Cloudy</li>
+                <li>Rain</li>
+                <li>Mist</li>
+                <li>Snow</li>
+                <li>Thunderstorm</li>
+            </ul>
     </div> <!--left column-->
 
     <div class="right-column">
@@ -42,17 +50,17 @@
             <h3>Or sign up!</h3>
             <form action="/register" method="post">
                 <label>First Name*</label><br>
-                <input required type="text" name="user[fname]"><br>
+                <input required type="text" name="fname"><br>
                 <label>Last Name*</label><br>
-                <input required type="text" name="user[lname]"><br>
+                <input required type="text" name="lname"><br>
 
                 <label>Username*</label><br>
-                <input required type="text" name="user[username]"><br>
+                <input required type="text" name="username"><br>
                 <label>Password*</label><br>
-                <input required type="password" name="user[password]"><br>
+                <input required type="password" name="password"><br>
                 
                 <label>Reenter Password*</label><br>
-                <input required type="password" name="user[password2]"><br>    
+                <input required type="password" name="password2"><br>    
                 
                 <input type="submit" value="Register">
 
