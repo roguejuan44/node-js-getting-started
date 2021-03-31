@@ -4,3 +4,4 @@ function revealLocation() {
     [].forEach.call(elems, function(el) {
         el.classList.remove("open");
     });}
+

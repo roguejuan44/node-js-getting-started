@@ -11,16 +11,33 @@
     <title>Bubbble Home Page</title>
 
 </head>
-<body>
+<body class="">
     <header>
+        <img id="headerImg" src="" alt="Weather Icon">
+
         <h1>Bubbble</h1>
+
     </header>
     <main>
+        <div>Weather in <span id="cityName"><%= user.user_location %></span>: <span id="theWeather"></span></div>
 
 
         <div class="post-stuff">
-            <button onclick="window.history.back()">Go Back</button>
+            <form action="/control" method="post">
+                <button type="submit">Go Back</button>
+            </form>
+            <div class="post-form">
+                <form action="/newPost" method="post">
+                    <textarea required name="postcontent" placeholder="What's on your mind?"></textarea><br>
+                    <button type="submit">Send</button>
+                    Location: <input type="text" name="location" disabled value="<%= user.user_location %>">
+                    <input type="hidden" name="id" value="<%= user.user_id %>">
+                    <input type="hidden" id="formWeather" name="weather" value="">
 
+                </form>
+    
+
+            </div> <!--post form-->
             <div class="newsfeed">
                 <ul>
                     <% posts.forEach(function(r) { %>
@@ -29,17 +46,30 @@
                 </ul>
                 
             </div> <!--newsfeed-->
-            <div class="post-form">
-                <form action="/newPost" method="post">
-                    <textarea required name="postcontent" placeholder="What's on your mind?"></textarea><br>
-                    <button type="submit">Send</button>
-                    <input type="hidden" name="id" value="<%= currentUser %>">
-                    
-                </form>
-    
 
-            </div> <!--post form-->
         </div>
+        <script>
+        function getWeather(cityName) {
+            cityName = cityName.replace(" ", "&20");
+            apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&APPID=d7ffb76f27d5f75f6ce4b7817252176f";
+            console.log(apiURL);
+            fetch(apiURL)
+                .then((response) => response.json())
+                .then((jsObject) => {
+                    var temp = jsObject.main.temp;
+                    var desc = jsObject.weather[0].main;
+                    document.getElementById("theWeather").innerHTML = desc;
+                    document.body.classList = "";
+                    document.body.classList = desc;
+                    document.getElementById("headerImg").src = "/images/weather/" + desc + ".png";
+                });
+        } 
+
+        window.onload = function () { 
+            let city = document.getElementById('cityName').innerHTML;
+            getWeather(city);    
+        }
+           </script>
     </main>
     <footer>
         <p>&copy; Ethan Tindall 2021 - CSE341: Backend 2 - Project 2</p>

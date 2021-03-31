@@ -1,1 +1,6 @@
-/* No CSS *//*# sourceMappingURL=newsfeed.css.map */
+main {
+  display: block;
+  max-width: 700px;
+  margin: 0 auto;
+}
+/*# sourceMappingURL=newsfeed.css.map */

@@ -1,15 +1,20 @@
 /*Sunny colors*/
-.sun {
+.Clear {
   background-color: #eff1c5;
 }
 
 /*Rainy*/
-.rain {
+.Rain {
   background-color: #0095c4;
 }
 
+/*Clouds*/
+.Clouds, .Thunderstorm, .Drizzle, .Mist, .Smoke, .Haze, .Dust, .Fog, .Sand, .Ash, .Squall, .Tornado {
+  background-color: gray;
+}
+
 /*Snowy*/
-.snow {
+.Snow {
   background-color: #F7EDE2;
 }
 

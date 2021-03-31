@@ -1,7 +1,13 @@
+const { sign } = require('crypto')
+const { cache } = require('ejs')
 const express = require('express')
+const https = require('https')
 const path = require('path')
 const PORT = process.env.PORT || 5000
-let currentWeather = "sun"
+let signedInUser = "test"
+let cachedPosts = ""
+
+
 //database connection
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -19,7 +25,7 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   //homepage
-  .get('/', (req, res) => res.render('pages/index', {message :"", weather: currentWeather}))
+  .get('/', (req, res) => res.render('pages/index', {message :""}))
   //search my posts
   .get('/postsBy', async (req, res) => {
     let creator = req.query.creator;
@@ -34,6 +40,8 @@ express()
       res.send("Error " + err);
     }
   })
+  .post('/control', (req, res) => res.render('pages/control', {user: signedInUser, message :""}))
+
   //sign in
   .post('/signIn', signIn)
   //register new user
@@ -60,9 +68,12 @@ function changeLocation(req, resp) {
   pool.query(sql, values, (err, res) => {
     if (err) {
       console.log(err.stack)
-    } else { console.log("success");
-    res.redirect('back');
-  } 
+      resp.render('pages/control', {user: signedInUser, message: "Error. Try again."})
+    } else {
+      signedInUser["user_location"] = location
+      console.log(signedInUser["user_location"])
+      resp.render('pages/control', {user: signedInUser, message: "Location Updated."})
+    } 
   })
 }
 
@@ -89,15 +100,15 @@ function register(req, resp) {
       console.log(err.stack)
     } else {
       if (res.rows[0]) {
-        resp.render('pages/index', {message :"A user with this username already exists", weather: currentWeather});
+        resp.render('pages/index', {message :"A user with this username already exists"});
       }
       else {
         if (password == password2) {
           addNewUser(values)
-          resp.render('pages/index', {message : "User registered successfully. Please sign in.", weather: currentWeather})
+          resp.render('pages/index', {message : "User registered successfully. Please sign in."})
         }
         else {
-          resp.render('pages/index', {message : "The passwords do not match. Try again.", weather: currentWeather})
+          resp.render('pages/index', {message : "The passwords do not match. Try again."})
         }
       }
     }
@@ -148,11 +159,12 @@ function signIn(req, resp) {
       console.log(err.stack)
     } else {
       if (!res.rows[0]) {
-        resp.render('pages/index', {message :"Incorrect username or password", weather: currentWeather});
+        resp.render('pages/index', {message :"Incorrect username or password"});
       }
       else {
         console.log("found")
-        resp.render('pages/control', {user: res.rows[0]});
+        signedInUser = res.rows[0]
+        resp.render('pages/control', {user: res.rows[0], message: ""});
       }
     }
   })
@@ -161,6 +173,7 @@ function signIn(req, resp) {
 function getNewsfeed(req, resp) {
   const username = req.body.username;
   const id = req.body.id;
+  const location = req.body.location;
   let sql = 'SELECT * FROM posts LEFT JOIN users ON posts.post_creator = users.user_id ORDER BY posts.post_date DESC'
 
   pool.query(sql, (err, res) => {
@@ -174,7 +187,8 @@ function getNewsfeed(req, resp) {
       }
       else {
         console.log("found")
-        resp.render('pages/newsfeed', {posts: res.rows, currentUser: id});
+        cachedPosts = res.rows
+        resp.render('pages/newsfeed', {posts: res.rows, user: signedInUser});
 
       }
     }
@@ -202,10 +216,38 @@ function createPost(req, resp) {
         resp.render('pages/index', {message :"No posts found"});
       }
       else {
+        cachedPosts.unshift(res.rows[0])
+        cachedPosts.sort((a, b) => (a.post_date > b.post_date) ? 1 : 1)
+
+        console.log(cachedPosts)
         console.log("found")
-        resp.render('pages/preview', {posts: res.rows, currentUser: id});
+        resp.render('pages/newsfeed', {posts: cachedPosts, user: signedInUser});
 
       }
     }
   })
+}
+
+function getWeather(locate) {
+    let url = 'https://api.openweathermap.org/data/2.5/weather?q=' + locate + '&units=imperial&APPID=d7ffb76f27d5f75f6ce4b7817252176f'
+    
+    https.get(url, (resp) => {
+      let data = '';
+      console.log("ouch")
+    
+      // A chunk of data has been received.
+      resp.on('data', (chunk) => {
+        data += chunk;
+      });
+    
+      // The whole response has been received. Print out the result.
+      resp.on('end', () => {
+        console.log(JSON.parse(data).name);
+        console.log(JSON.parse(data).weather[0].main);
+
+      });
+    
+    }).on("error", (err) => {
+      console.log("Error: " + err.message);
+    });
 }

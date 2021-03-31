@@ -2,22 +2,29 @@
 $background-sunny: #eff1c5;
 $shadow-sunny: #a2a77f;
 
-.sun {
+.Clear {
     background-color: $background-sunny;
 }
 /*Rainy*/
 $background-rainy: #0095c4;
 $shadow-rainy: #035e7b;
 
-.rain {
+.Rain {
     background-color: $background-rainy;
+}
+/*Clouds*/
+$background-clouds: gray;
+$shadow-clouds: lightgray;
+
+.Clouds, .Thunderstorm, .Drizzle, .Mist, .Smoke, .Haze, .Dust, .Fog, .Sand, .Ash, .Squall, .Tornado {
+    background-color: $background-clouds;
 }
 
 /*Snowy*/
 $background-snowy: #F7EDE2;
 $shadow-snowy: gray;
 
-.snow {
+.Snow {
     background-color: $background-snowy;
 } 
 

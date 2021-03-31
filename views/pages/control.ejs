@@ -13,17 +13,19 @@
 
 
 </head>
-<body>
+<body class="sun">
     <header>
 
-        <img src="/images/sun.png" alt="Sun Icon">
+        <img id="headerImg" src="" alt="Weather Icon">
 
         <h1>Bubbble</h1>
     </header>
     <main>
         <div class="control">
+            <%= message %>
             <div class="row1">
             <h2>Welcome <%= user.user_username %></h2>
+            <div>Weather in <span id="cityName"><%= user.user_location %></span>: <span id="theWeather"></span></div>
             <h5>How does Bubbble work?</h5>
             <p>You can create posts that anyone on the site can see! Bubbble
                  takes your set location and themes your post according to the weather at the time of posting.
@@ -45,6 +47,7 @@
                     </li>
                     <li class="panels newsfeed" onclick="revealPanel('newsfeed')">
                         <form action="/newsfeed" method="post">
+                            <input type="hidden" value="<%= user.user_location%>" id="currentLocation" name="currentLocation">
                             <button type="submit">View Newsfeed</button>
                             <input type="hidden" name="username" value="<%= user.user_username %>">
                             <input type="hidden" name="id" value="<%= user.user_id %>">
@@ -78,6 +81,7 @@
                         <button type="button" onclick="closeModals()">Close</button>
                         <input required type="text" value="<%= user.user_location%>" placeholder="Your Location" name="location"><br>
                         <input type="hidden" value="<%= user.user_id%>" name="id">
+
                         <button type="submit">Update</button>
                     </form>
                 </div>
@@ -136,7 +140,26 @@
                 modal.style.display ="none";
             }
 
+            function getWeather(cityName) {
+                cityName = cityName.replace(" ", "&20");
+                apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&APPID=d7ffb76f27d5f75f6ce4b7817252176f";
+                console.log(apiURL);
+                fetch(apiURL)
+                    .then((response) => response.json())
+                    .then((jsObject) => {
+                        var temp = jsObject.main.temp;
+                        var desc = jsObject.weather[0].main;
+                        document.getElementById("theWeather").innerHTML = desc;
+                        document.body.classList = "";
+                        document.body.classList = desc;
+                        document.getElementById("headerImg").src = "/images/weather/" + desc + ".png";
+                    });
+            } 
 
+            window.onload = function () { 
+                let city = document.getElementById('cityName').innerHTML;
+                getWeather(city);    
+            }
                </script>
     </main>
     <footer>
