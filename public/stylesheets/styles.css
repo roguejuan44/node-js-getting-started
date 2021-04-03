@@ -10,7 +10,7 @@
 
 /*Clouds*/
 .Clouds, .Thunderstorm, .Drizzle, .Mist, .Smoke, .Haze, .Dust, .Fog, .Sand, .Ash, .Squall, .Tornado {
-  background-color: gray;
+  background-color: lightgray;
 }
 
 /*Snowy*/
@@ -68,14 +68,6 @@ h1 {
   width: 95%;
 }
 
-.bubbble-post {
-  border: 1px solid black;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 5px;
-  list-style-type: none;
-}
-
 header img {
   width: 150px;
 }
@@ -113,6 +105,19 @@ main {
   display: block;
   width: 90%;
   margin: 0 auto;
+}
+
+.post-row {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 100px 1fr;
+      grid-template-columns: 100px 1fr;
+}
+
+.post-row img {
+  -ms-grid-column: 1;
+  grid-column: 1;
+  width: 100px;
 }
 
 @media screen and (min-width: 800px) {

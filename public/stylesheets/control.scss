@@ -61,7 +61,29 @@
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    border: 3px solid black;
+    width: 50%;
     height: 30%; 
+    border-radius: 15px;
+    background-color: wheat;
   }
+
+  .modal-content {
+
+    p {
+        font-family: 'Righteous', cursive;
+        font-size: 1.2rem;
+    } 
+    input {
+        margin-bottom: 25px;
+    }
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    button {
+        font-size: 1.2rem;
+        padding: 10px;
+    }
+}

@@ -32,7 +32,7 @@ express()
     try {
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM posts WHERE post_creator = ' + creator);
-      const results = { 'results': (result) ? result.rows : null};
+      const results = { 'results': (result) ? result.rows : null, user: signedInUser};
       res.render('pages/db', results );
       client.release();
     } catch (err) {
@@ -83,16 +83,10 @@ function register(req, resp) {
   const username = req.body.username;
   const password = req.body.password;
   const password2 = req.body.password2;
-
-
-  console.log("FN: " + fName);
-  console.log("LN: " + lName);
-  console.log("UN: " + username);
-  console.log("PW: " + password);
-  console.log("PW2: " + password2);
+  const city = req.body.city;
 
   let sql = 'SELECT * FROM users WHERE user_username = $1';
-  let values = [username, fName, lName, password];
+  let values = [username, fName, lName, password, city];
   let oneValue = [username];
 
   pool.query(sql, oneValue, (err, res) => {
@@ -132,7 +126,7 @@ function addNewUser(valuesU) {
     }
     client.query('BEGIN', err => {
       if (shouldAbort(err)) return
-      const queryText = 'INSERT INTO users (user_username, user_firstname, user_lastname, user_password) VALUES ($1, $2, $3, $4) RETURNING user_id'
+      const queryText = 'INSERT INTO users (user_username, user_firstname, user_lastname, user_password, user_location) VALUES ($1, $2, $3, $4, $5) RETURNING user_id'
       client.query(queryText, valuesU, (err, res) => {
         if (shouldAbort(err)) return
         client.query('COMMIT', err => {

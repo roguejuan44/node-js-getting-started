@@ -13,9 +13,9 @@ $shadow-rainy: #035e7b;
     background-color: $background-rainy;
 }
 /*Clouds*/
-$background-clouds: gray;
+$background-clouds: lightgray;
 $shadow-clouds: lightgray;
-
+ 
 .Clouds, .Thunderstorm, .Drizzle, .Mist, .Smoke, .Haze, .Dust, .Fog, .Sand, .Ash, .Squall, .Tornado {
     background-color: $background-clouds;
 }
@@ -71,20 +71,13 @@ h1 {
 
 
 
-.bubbble-post {
-    border: 1px solid black;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    list-style-type: none;
-}
+
 header img {
     width: 150px;
 }
 header h1 {
     padding-top: 10px;
-}
-
+}   
 header, footer {
     text-align: center;
 }
@@ -104,6 +97,14 @@ main {
     display: block;
     width: 90%;
     margin: 0 auto;
+}
+.post-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    img {
+        grid-column: 1;
+        width: 100px;
+    }
 }
 
 

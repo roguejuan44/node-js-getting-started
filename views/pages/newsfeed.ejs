@@ -19,18 +19,23 @@
 
     </header>
     <main>
-        <div>Weather in <span id="cityName"><%= user.user_location %></span>: <span id="theWeather"></span></div>
 
 
         <div class="post-stuff">
-            <form action="/control" method="post">
-                <button type="submit">Go Back</button>
-            </form>
+            <div class="row1">
+                <form action="/control" method="post">
+                    <button class="btn" type="submit">Return to Home</button>
+                </form>
+                <div>Weather in <span id="cityName"><%= user.user_location %></span>: <span id="theWeather"></span></div>
+            </div>
             <div class="post-form">
                 <form action="/newPost" method="post">
-                    <textarea required name="postcontent" placeholder="What's on your mind?"></textarea><br>
-                    <button type="submit">Send</button>
-                    Location: <input type="text" name="location" disabled value="<%= user.user_location %>">
+                    <div class="post-div">
+                    <img id="postImg" src="" alt="Weather Icon">
+                    <textarea required name="postcontent" placeholder="What's on your mind?"></textarea></div><br>
+                    <div style="margin: 0 auto;"><label>Location:</label> <input type="text" name="location" disabled value="<%= user.user_location %>"></div><br>
+
+                    <button class="btn" type="submit">Create New Post</button>
                     <input type="hidden" name="id" value="<%= user.user_id %>">
                     <input type="hidden" id="formWeather" name="weather" value="">
 
@@ -41,7 +46,10 @@
             <div class="newsfeed">
                 <ul>
                     <% posts.forEach(function(r) { %>
-                        <li class="bubbble-post"><%= r.post_content %><br><hr> --<%= r.user_username %><br><%= r.post_date %></li>
+                        <li class="bubbble-post">
+                                <div class="post-row"><img src="/images/weather/<%=r.post_weather %>.png"> <p><%= r.post_content %></p></div><br><hr> --<%= r.user_username %><br><%= r.post_date %><br><%= r.post_location %>
+                            </li>
+                        </div>
                     <% }); %>
                 </ul>
                 
@@ -62,6 +70,8 @@
                     document.body.classList = "";
                     document.body.classList = desc;
                     document.getElementById("headerImg").src = "/images/weather/" + desc + ".png";
+                    document.getElementById("postImg").src = "/images/weather/" + desc + ".png";
+
                 });
         } 
 
@@ -71,9 +81,7 @@
         }
            </script>
     </main>
-    <footer>
-        <p>&copy; Ethan Tindall 2021 - CSE341: Backend 2 - Project 2</p>
-    </footer>
+
 </body>
 </html>
     

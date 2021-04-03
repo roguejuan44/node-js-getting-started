@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/newsfeed.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/control.css">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -77,8 +76,11 @@
                 <div class="modal">
                 <div class="modal-content location-hidden">
                     <form class="change-location" method="post" action="/changeLocation">
-                        <p>Update Location</p>
-                        <button type="button" onclick="closeModals()">Close</button>
+                        <div><p>Update Location</p>
+                        <button type="button" onclick="closeModals()">Close</button></div>
+                        <br>
+                        Enter a location and the background of your site and posts will change according to the weather at that location!
+                            <br><br>
                         <input required type="text" value="<%= user.user_location%>" placeholder="Your Location" name="location"><br>
                         <input type="hidden" value="<%= user.user_id%>" name="id">
 
