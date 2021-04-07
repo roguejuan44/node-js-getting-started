@@ -44,7 +44,9 @@ express()
 
   //sign in
   .post('/signIn', signIn)
+
   //register new user
+
   .post('/register', register)
   //set user location
   .post('/changeLocation', changeLocation)
@@ -190,15 +192,19 @@ function getNewsfeed(req, resp) {
 }
 
 function createPost(req, resp) {
-  const content = req.body.postcontent;
   const id = req.body.id;
+  const weather = req.body.postweather;
+  const plocation = req.body.postlocation;
+  const content = req.body.postcontent;
+  const date = req.body.date;
+
 
     //insert into posts 
     //get new posts
-  console.log(id + " hello: " + content);
+  console.log(id + " hello: " + plocation);
 
-  const text = "INSERT INTO posts(post_creator, post_weather, post_location, post_content, post_date) VALUES($1, 'sunny', 'Denver', $2, '2021-03-19') RETURNING * "
-  const values = [id, content]
+  const text = "INSERT INTO posts(post_creator, post_weather, post_location, post_content, post_date) VALUES($1, $2, $3, $4, $5) RETURNING * "
+  const values = [id, weather, plocation, content, date]
 
   pool.query(text, values, (err, res) => {
     if (err) {
