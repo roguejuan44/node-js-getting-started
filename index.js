@@ -198,7 +198,6 @@ function createPost(req, resp) {
   const content = req.body.postcontent;
   const date = req.body.date;
 
-
     //insert into posts 
     //get new posts
   console.log(id + " hello: " + plocation);
